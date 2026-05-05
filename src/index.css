@@ -1,0 +1,173 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Light palette — #F8F9FA page, white cards ───────────────────────── */
+    --background: 210 17% 98%;       /* #F8F9FA soft off-white */
+    --foreground: 217 33% 14%;       /* #1E293B deep slate */
+
+    --card: 0 0% 100%;               /* #FFFFFF pure white */
+    --card-foreground: 217 33% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 33% 14%;
+
+    /* Primary brand: Deep Forest Green #0A5C36 */
+    --primary: 152 80% 20%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 18% 93%;
+    --secondary-foreground: 217 33% 14%;
+
+    --muted: 210 16% 94%;
+    --muted-foreground: 215 19% 32%;  /* medium slate — readable on white */
+
+    /* Accent: Warm Gold #F2A900 */
+    --accent: 42 100% 47%;
+    --accent-foreground: 217 33% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 18% 87%;
+    --input: 215 18% 87%;
+    --ring: 42 100% 47%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 210 17% 98%;
+    --sidebar-foreground: 217 33% 14%;
+    --sidebar-primary: 152 80% 20%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 18% 93%;
+    --sidebar-accent-foreground: 217 33% 14%;
+    --sidebar-border: 215 18% 87%;
+    --sidebar-ring: 42 100% 47%;
+  }
+
+  .dark {
+    --background: 222 42% 10%;
+    --foreground: 0 0% 97%;
+    --card: 220 36% 14%;
+    --card-foreground: 0 0% 97%;
+    --popover: 220 36% 14%;
+    --popover-foreground: 0 0% 97%;
+    --primary: 152 80% 28%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 30% 18%;
+    --secondary-foreground: 0 0% 97%;
+    --muted: 220 28% 17%;
+    --muted-foreground: 215 20% 75%;
+    --accent: 42 100% 47%;
+    --accent-foreground: 217 33% 12%;
+    --destructive: 0 72% 44%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 22% 22%;
+    --input: 220 22% 22%;
+    --ring: 42 100% 47%;
+    --sidebar-background: 222 42% 10%;
+    --sidebar-foreground: 0 0% 97%;
+    --sidebar-primary: 152 80% 28%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 30% 18%;
+    --sidebar-accent-foreground: 0 0% 97%;
+    --sidebar-border: 220 22% 22%;
+    --sidebar-ring: 42 100% 47%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    min-height: 100vh;
+    color: hsl(215 19% 32%);
+    font-size: 1rem;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Montserrat', 'Inter', "Segoe UI", Roboto, Arial, sans-serif;
+    color: hsl(217 33% 14%);
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: clamp(1.875rem, 3.5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2.6vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: hsl(215 19% 32%);
+    font-weight: 500;
+  }
+
+  /* Helper / hint text under inputs */
+  .text-xs {
+    font-size: 0.8125rem !important;
+    font-weight: 500;
+    color: hsl(215 19% 32%);
+  }
+
+  small {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: hsl(215 19% 32%);
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: hsl(217 33% 14%);
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  /* Muted text — darker slate for strong contrast on white/light backgrounds */
+  .text-muted-foreground {
+    color: hsl(215 19% 32%) !important;
+    font-weight: 500;
+  }
+
+  /* Card descriptions */
+  .text-sm {
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.28);
+    color: hsl(217 33% 12%);
+  }
+}
