@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitials } from '@/lib/initials';
-import { formatCurrency } from '@/lib/mockData';
+import { formatCurrency } from '@/lib/currency';
 import { 
   MapPin, Info, DollarSign, Ruler, Calendar, User, 
   MessageSquare, Send, Heart, Share2, Eye

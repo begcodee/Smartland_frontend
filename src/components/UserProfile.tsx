@@ -15,7 +15,7 @@ import {
   Mail, Phone, TrendingUp
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { formatCurrency } from '@/lib/mockData';
+import { formatCurrency } from '@/lib/currency';
 
 interface UserProfileDialogProps {
   /** Controlled mode: when provided, renders only the dialog (no trigger) */

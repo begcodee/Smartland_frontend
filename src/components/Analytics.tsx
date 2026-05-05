@@ -7,7 +7,7 @@ import {
   DollarSign, MapPin, Users, Activity,
   ArrowUpRight, ArrowDownRight
 } from 'lucide-react';
-import { formatCurrency } from '@/lib/mockData';
+import { formatCurrency } from '@/lib/currency';
 import { api } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
 

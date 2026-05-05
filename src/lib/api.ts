@@ -173,7 +173,7 @@ export const api = {
   }) {
     const r = await fetch(`${API_BASE}/verify/ghana-card`, {
       method: 'POST',
-      headers: headers(false),
+      headers: headers(),
       body: JSON.stringify(payload)
     });
     const data = await r.json();

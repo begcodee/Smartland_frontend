@@ -3,26 +3,6 @@
  */
 import type { LandParcel } from './mockData';
 
-function defaultImagesForParcel(parcelId: string, title: string, address: string): LandParcel['images'] {
-  const key = `${parcelId}|${title} ${address}`.toLowerCase();
-  const pool = ['/images/land-1.jpg', '/images/land-2.jpg', '/images/land-3.jpg', '/images/land-4.jpg', '/images/land-5.jpg'];
-
-  // Stable tiny hash to spread defaults across the pool (demo-friendly).
-  let h = 0;
-  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-  const pick = pool[h % pool.length];
-
-  return [
-    {
-      id: `img_default_${parcelId}`,
-      url: pick,
-      caption: 'Listing photo',
-      type: 'main',
-      uploadedAt: new Date().toISOString(),
-    },
-  ];
-}
-
 export function mapApiParcelToLandParcel(p: {
   id: string;
   title: string;
@@ -123,7 +103,7 @@ export function mapApiParcelToLandParcel(p: {
       verificationStatus: d.verificationStatus as 'pending' | 'verified' | 'rejected' | undefined
     })),
     documentsVerificationStatus: docStatus,
-    images: rawImages.length ? rawImages : defaultImagesForParcel(p.id, p.title, loc.address),
+    images: rawImages,
     createdAt: p.createdAt,
     updatedAt: p.updatedAt ?? p.createdAt,
     type: (p.type as LandParcel['type']) ?? 'residential',

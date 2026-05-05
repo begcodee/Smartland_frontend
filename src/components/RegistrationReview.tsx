@@ -117,9 +117,11 @@ export function RegistrationReview() {
     try {
       const res = await api.verifyUser(u.id, 'approve');
       if (res.success) {
-        const token = res.blockchainToken || `0x${Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
         toast.success(`${u.name} approved`, {
-          description: `Account is now verified. Blockchain token: ${token.slice(0, 16)}…`,
+          description:
+            typeof res.blockchainToken === 'string' && res.blockchainToken.length > 0
+              ? `Account is now verified. Blockchain token: ${res.blockchainToken.slice(0, 16)}…`
+              : 'Account is now verified.',
           duration: 6000,
         });
         setPendingUsers((prev) => prev.filter((x) => x.id !== u.id));

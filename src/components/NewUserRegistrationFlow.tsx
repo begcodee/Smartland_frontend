@@ -124,7 +124,7 @@ export function NewUserRegistrationFlow({ onSuccess, onBack }: NewUserRegistrati
     formData.name.trim().length >= 2 &&
     formData.email.trim() &&
     formData.phoneNumber.trim().length >= 7 &&
-    formData.password.length >= 6 &&
+    formData.password.length >= 8 &&
     formData.password === formData.confirmPassword &&
     (formData.role !== 'admin' ||
       (formData.organization.trim().length > 0 && formData.staffId.trim().length >= 2)) &&
@@ -448,7 +448,7 @@ export function NewUserRegistrationFlow({ onSuccess, onBack }: NewUserRegistrati
 
           {/* Password */}
           <div className="space-y-2">
-            <Label className="text-foreground">Password * <span className="text-xs text-muted-foreground">(min 6 characters)</span></Label>
+            <Label className="text-foreground">Password * <span className="text-xs text-muted-foreground">(min 8 characters)</span></Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
@@ -458,7 +458,7 @@ export function NewUserRegistrationFlow({ onSuccess, onBack }: NewUserRegistrati
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 className="pl-10 pr-10"
                 required
-                minLength={6}
+                minLength={8}
               />
               <button
                 type="button"

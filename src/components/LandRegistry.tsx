@@ -11,8 +11,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MapPin, FileText, Plus, Search, Eye, Camera, Zap, Hexagon, Shield, Image as ImageIcon, Gavel, Lock, Smartphone, Building2, CreditCard } from 'lucide-react';
-import { formatCurrency } from '@/lib/mockData';
-import { LandParcel, User } from '@/lib/mockData';
+import { formatCurrency } from '@/lib/currency';
+import type { LandParcel, User } from '@/lib/mockData';
 import { api } from '@/lib/api';
 import { mapApiParcelToLandParcel } from '@/lib/parcelMapper';
 import { ImageUpload } from '@/components/ImageUpload';
@@ -380,9 +380,7 @@ export const LandRegistry = ({ currentUser }: LandRegistryProps) => {
     }
 
     setIsRegistering(true);
-    const coords = { lat: 5.6037 + Math.random() * 0.1, lng: -0.1870 + Math.random() * 0.1 };
-    const now = new Date().toISOString();
-
+    const coords = { lat: 5.6037, lng: -0.1870 };
     try {
       // Upload land documents to secure vault (encrypted at rest). Only fileId + sha256 are persisted on parcel.
       const uploadedDocs = await Promise.all(
@@ -440,46 +438,11 @@ export const LandRegistry = ({ currentUser }: LandRegistryProps) => {
       };
 
       let registeredParcel: LandParcel | null = null;
-
-      try {
-        const result = await api.createParcel(payload);
-        if (result.success && result.parcel) {
-          const raw = { ...result.parcel, owner: { id: currentUser?.id ?? '', name: currentUser?.name ?? '', email: '' } };
-          const m = mapApiParcelToLandParcel(raw as Parameters<typeof mapApiParcelToLandParcel>[0]);
-          registeredParcel = applyGlcGate(m);
-        }
-      } catch {
-        // Backend unavailable — create parcel locally for prototype use
-        registeredParcel = {
-          id: `PARCEL_${Date.now()}`,
-          title: newParcel.title,
-          description: newParcel.description,
-          location: {
-            address: newParcel.location.address,
-            coordinates: { lat: coords.lat, lng: coords.lng },
-            region: newParcel.location.region
-          },
-          area: Math.round(parsedNewArea.sqm) || 0,
-          price: parseInt(newParcel.price) || 0,
-          status: 'pending',
-          ownerId: currentUser?.id ?? '',
-          owner: currentUser?.name ?? 'Unknown',
-          documents: newParcel.documents.map(d => ({
-            id: `DOC_${Date.now()}_${Math.random()}`,
-            name: d.name,
-            type: d.type || 'PDF',
-            url: d.scannedImage || '',
-            uploadedAt: now,
-            verificationStatus: 'pending' as const
-          })),
-          documentsVerificationStatus: 'pending',
-          images: newParcel.images,
-          createdAt: now,
-          updatedAt: now,
-          type: newParcel.type,
-          comments: [],
-          blockchainHash: `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
-        };
+      const result = await api.createParcel(payload);
+      if (result.success && result.parcel) {
+        const raw = { ...result.parcel, owner: { id: currentUser?.id ?? '', name: currentUser?.name ?? '', email: '' } };
+        const m = mapApiParcelToLandParcel(raw as Parameters<typeof mapApiParcelToLandParcel>[0]);
+        registeredParcel = applyGlcGate(m);
       }
 
       if (registeredParcel) {

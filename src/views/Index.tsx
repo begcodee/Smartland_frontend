@@ -125,25 +125,29 @@ export default function Index() {
       const token = (res as { token?: string }).token;
       // Backend returns { token, user }; api.login stores token in localStorage.
       if (res.user && (token || (res as { success?: boolean }).success)) {
-        const u = res.user;
+        const u = res.user as Record<string, unknown>;
         const mappedUser: User = {
-          id: u.id,
-          name: u.name,
-          email: u.email,
-          role: normalizeBackendRole(u.role as string | undefined),
-          verificationStatus: u.verified ? 'verified' : u.verificationStatus || 'pending',
-          country: u.country || 'GH',
-          phoneNumber: u.phoneNumber,
-          organization: u.organization,
-          staffId: u.staffId,
-          arbitratorRegNo: u.arbitratorRegNo,
-          blockchainToken: u.blockchainToken,
-          idVerification: u.idVerification,
+          id: String(u.id ?? ''),
+          name: String(u.name ?? ''),
+          email: String(u.email ?? ''),
+          role: normalizeBackendRole(typeof u.role === 'string' ? u.role : undefined),
+          verificationStatus: u.verified === true ? 'verified' : (typeof u.verificationStatus === 'string' ? u.verificationStatus : 'pending'),
+          country: typeof u.country === 'string' ? u.country : 'GH',
+          phoneNumber: typeof u.phoneNumber === 'string' ? u.phoneNumber : '',
+          organization: typeof u.organization === 'string' ? u.organization : undefined,
+          staffId: typeof u.staffId === 'string' ? u.staffId : undefined,
+          arbitratorRegNo: typeof u.arbitratorRegNo === 'string' ? u.arbitratorRegNo : undefined,
+          blockchainToken: typeof u.blockchainToken === 'string' ? u.blockchainToken : undefined,
+          idVerification: (u.idVerification && typeof u.idVerification === 'object')
+            ? (u.idVerification as User['idVerification'])
+            : undefined,
           identityStatus: (readBackendIdentityStatus(u) ?? undefined) as User['identityStatus'] | undefined,
           identityReferenceId: readBackendIdentityReferenceId(u),
-          reputation: u.reputation,
-          creditScore: u.creditScore,
-          financialProfile: u.financialProfile
+          reputation: (u.reputation && typeof u.reputation === 'object') ? (u.reputation as User['reputation']) : undefined,
+          creditScore: (u.creditScore && typeof u.creditScore === 'object') ? (u.creditScore as User['creditScore']) : undefined,
+          financialProfile: (u.financialProfile && typeof u.financialProfile === 'object')
+            ? (u.financialProfile as User['financialProfile'])
+            : undefined
         } as User;
         const identityState = readBackendIdentityStatus(u) ?? undefined;
         if (fullName.trim()) mappedUser.name = fullName.trim();
@@ -163,6 +167,12 @@ export default function Index() {
               description:
                 'Your Ghana Card check was not approved. Open your dashboard for details, or contact support if this is unexpected.',
               duration: 12000,
+            });
+          } else {
+            toast.info('Verification required', {
+              description:
+                'Your account is not verified yet. Please complete Ghana Card verification to unlock transactions.',
+              duration: 9000,
             });
           }
         }

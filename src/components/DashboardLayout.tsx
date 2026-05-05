@@ -19,7 +19,7 @@ import { VerificationGateDialog } from '@/components/VerificationGateDialog';
 import { ThemeSettingsDialog } from '@/components/ThemeSettingsDialog';
 import { User, ChevronDown, LogOut, Hexagon, Settings, Star, CreditCard, TrendingUp } from 'lucide-react';
 import type { User as UserType } from '@/lib/mockData';
-import { formatCurrency } from '@/lib/mockData';
+import { formatCurrency } from '@/lib/currency';
 
 interface DashboardLayoutProps {
   children: ReactNode;
